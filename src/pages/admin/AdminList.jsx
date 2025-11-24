@@ -47,12 +47,7 @@ export default function AdminList() {
           {orgs.map((org) => (
             <tr key={org.id} className="border-b">
               <td className="p-3">{org.name}</td>
-
-              {/* FIX: Tampilkan nama, bukan object */}
-              <td className="p-3">
-                {org.pengurus?.ketua?.nama || "-"}
-              </td>
-
+              <td className="p-3">{org.pengurus?.ketua?.nama || "-"}</td>
               <td className="p-3 space-x-2">
                 <Link
                   to={`/admin/edit/${org.id}`}
@@ -60,7 +55,6 @@ export default function AdminList() {
                 >
                   Edit
                 </Link>
-
                 <button
                   onClick={() => handleDelete(org.id)}
                   className="px-3 py-1 bg-red-600 text-white rounded"
