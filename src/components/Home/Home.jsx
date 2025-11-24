@@ -5,25 +5,21 @@ import CardItem from "../CardItem";
 export default function Home() {
   const [orgs, setOrgs] = useState([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     load();
   }, []);
-
   const load = async () => {
     setLoading(true);
     const data = await getAllOrgs();
     setOrgs(data);
     setLoading(false);
   };
-
   return (
     <div
       className="min-h-screen w-full bg-cover bg-center bg-no-repeat bg-black/40 bg-blend-darken"
       style={{
         backgroundImage: "url('/uk.jpg')",
-      }}
-    >
+      }}>
       <div className="min-h-screen w-full bg-white/30">
         <div className="max-w-6xl mx-auto pt-[80px] py-24 px-6 bg-white/20 backdrop-blur-md rounded-xl">
           <h1 className="text-4xl font-bold text-center text-white mb-10 drop-shadow-md">
