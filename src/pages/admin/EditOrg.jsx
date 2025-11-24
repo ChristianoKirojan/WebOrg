@@ -11,7 +11,7 @@ export default function EditOrg() {
     wakil: { nama: "", image: "" },
     sekretaris: { nama: "", image: "" },
     bendahara: { nama: "", image: "" },
-    advisor: { nama: "", image: "" },
+    advisor: [],
   };
 
   const [form, setForm] = useState({
@@ -28,7 +28,7 @@ export default function EditOrg() {
     });
   }, [id]);
 
-  /* -------------------- HANDLE INPUT ORGANISASI -------------------- */
+  // -------------------- HANDLE INPUT ORGANISASI --------------------
   const handleBasicChange = (e) => {
     setForm({
       ...form,
@@ -36,28 +36,68 @@ export default function EditOrg() {
     });
   };
 
-  /* -------------------- HANDLE NAMA PENGURUS -------------------- */
-  const handlePengurusNama = (e, role) => {
+  // -------------------- HANDLE NAMA PENGURUS --------------------
+  const handlePengurusNama = (e, role, index = null) => {
+    if (role === "advisor") {
+      const newAdvisor = [...form.pengurus.advisor];
+      newAdvisor[index].nama = e.target.value;
+      setForm({
+        ...form,
+        pengurus: { ...form.pengurus, advisor: newAdvisor },
+      });
+    } else {
+      setForm({
+        ...form,
+        pengurus: {
+          ...form.pengurus,
+          [role]: { ...form.pengurus[role], nama: e.target.value },
+        },
+      });
+    }
+  };
+
+  // -------------------- HANDLE FOTO URL PENGURUS --------------------
+  const handlePengurusImageURL = (e, role, index = null) => {
+    if (role === "advisor") {
+      const newAdvisor = [...form.pengurus.advisor];
+      newAdvisor[index].image = e.target.value;
+      setForm({
+        ...form,
+        pengurus: { ...form.pengurus, advisor: newAdvisor },
+      });
+    } else {
+      setForm({
+        ...form,
+        pengurus: {
+          ...form.pengurus,
+          [role]: { ...form.pengurus[role], image: e.target.value },
+        },
+      });
+    }
+  };
+
+  // -------------------- TAMBAH ADVISOR --------------------
+  const addAdvisor = () => {
     setForm({
       ...form,
       pengurus: {
         ...form.pengurus,
-        [role]: { ...form.pengurus[role], nama: e.target.value },
+        advisor: [...form.pengurus.advisor, { nama: "", image: "" }],
       },
     });
   };
 
-  /* -------------------- HANDLE FOTO URL PENGURUS -------------------- */
-  const handlePengurusImageURL = (e, role) => {
+  // -------------------- HAPUS ADVISOR --------------------
+  const removeAdvisor = (index) => {
+    const newAdvisor = [...form.pengurus.advisor];
+    newAdvisor.splice(index, 1);
     setForm({
       ...form,
-      pengurus: {
-        ...form.pengurus,
-        [role]: { ...form.pengurus[role], image: e.target.value },
-      },
+      pengurus: { ...form.pengurus, advisor: newAdvisor },
     });
   };
 
+  // -------------------- SAVE --------------------
   const save = async () => {
     await updateOrg(id, form);
     nav("/admin");
@@ -117,25 +157,18 @@ export default function EditOrg() {
         <h2 className="text-3xl font-bold text-indigo-600 mb-6">Struktur Pengurus</h2>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {Object.entries(form.pengurus).map(([role, data]) => (
-            <div
-              key={role}
-              className="p-5 rounded-2xl bg-gradient-to-br from-white to-gray-100 border shadow hover:shadow-lg duration-200"
-            >
-              <h3 className="text-xl font-bold capitalize mb-4 text-gray-800">
-                {role}
-              </h3>
+          {Object.entries(form.pengurus)
+            .filter(([role]) => role !== "advisor")
+            .map(([role, data]) => (
+            <div key={role} className="p-5 rounded-2xl bg-gradient-to-br from-white to-gray-100 border shadow hover:shadow-lg duration-200">
+              <h3 className="text-xl font-bold capitalize mb-4 text-gray-800">{role}</h3>
 
-              {/* FOTO PREVIEW */}
               <img
                 src={data.image || "/pengurus.jpg"}
                 className="w-28 h-28 rounded-full object-cover mx-auto shadow-md border"
               />
 
-              {/* INPUT FOTO URL */}
-              <label className="text-sm font-medium mt-4 block text-gray-600">
-                Foto (URL)
-              </label>
+              <label className="text-sm font-medium mt-4 block text-gray-600">Foto (URL)</label>
               <input
                 value={data.image}
                 onChange={(e) => handlePengurusImageURL(e, role)}
@@ -143,10 +176,7 @@ export default function EditOrg() {
                 className="w-full p-2 border rounded bg-gray-50 shadow-sm mt-1"
               />
 
-              {/* NAMA */}
-              <label className="text-sm font-medium mt-4 block text-gray-600">
-                Nama {role}
-              </label>
+              <label className="text-sm font-medium mt-4 block text-gray-600">Nama {role}</label>
               <input
                 value={data.nama}
                 onChange={(e) => handlePengurusNama(e, role)}
@@ -155,9 +185,50 @@ export default function EditOrg() {
               />
             </div>
           ))}
+
+          {/* ADVISOR */}
+          {form.pengurus.advisor.map((adv, index) => (
+            <div key={`advisor-${index}`} className="p-5 rounded-2xl bg-gradient-to-br from-white to-gray-100 border shadow hover:shadow-lg duration-200">
+              <h3 className="text-xl font-bold mb-4 text-gray-800">Advisor {index + 1}</h3>
+
+              <img
+                src={adv.image || "/pengurus.jpg"}
+                className="w-28 h-28 rounded-full object-cover mx-auto shadow-md border"
+              />
+
+              <label className="text-sm font-medium mt-4 block text-gray-600">Foto (URL)</label>
+              <input
+                value={adv.image}
+                onChange={(e) => handlePengurusImageURL(e, "advisor", index)}
+                placeholder="https://contoh.com/foto.jpg"
+                className="w-full p-2 border rounded bg-gray-50 shadow-sm mt-1"
+              />
+
+              <label className="text-sm font-medium mt-4 block text-gray-600">Nama Advisor</label>
+              <input
+                value={adv.nama}
+                onChange={(e) => handlePengurusNama(e, "advisor", index)}
+                placeholder={`Nama Advisor ${index + 1}`}
+                className="w-full p-2 border rounded bg-gray-50 shadow-sm mt-1"
+              />
+
+              <button
+                onClick={() => removeAdvisor(index)}
+                className="mt-2 px-3 py-1 bg-red-500 text-white rounded"
+              >
+                Hapus Advisor
+              </button>
+            </div>
+          ))}
+
+          <button
+            onClick={addAdvisor}
+            className="mt-4 col-span-2 px-4 py-2 bg-green-500 text-white rounded-lg shadow"
+          >
+            Tambah Advisor
+          </button>
         </div>
 
-        {/* SAVE BUTTON */}
         <button
           onClick={save}
           className="w-full py-3 mt-10 bg-indigo-600 hover:bg-indigo-700 text-white text-xl font-semibold rounded-xl shadow-md"
