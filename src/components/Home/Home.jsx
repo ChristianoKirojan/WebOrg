@@ -16,7 +16,7 @@ export default function Home() {
     setOrgs(data);
     setLoading(false);
   };
-
+ 
   return (
     <div
       className="min-h-screen w-full bg-cover bg-center bg-no-repeat bg-black/40 bg-blend-darken"
