@@ -11,18 +11,15 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col w-screen bg-[url('/uk.jpg')] bg-cover bg-center bg-no-repeat">
       <Header />
-
       <main className="flex-1 max-w-6xl mx-auto w-full p-6">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/organization/:id" element={<CardDetail />} />
-
           <Route path="/admin" element={<AdminList />} />
           <Route path="/admin/add" element={<AddOrg />} />
           <Route path="/admin/edit/:id" element={<EditOrg />} />
         </Routes>
       </main>
-
       <Footer />
     </div>
   );

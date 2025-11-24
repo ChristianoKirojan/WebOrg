@@ -2,7 +2,6 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5001/organizations";
 
-// GET semua data organisasi
 export const getAllOrgs = async () => {
   try {
     const res = await axios.get(API_URL);
@@ -12,8 +11,6 @@ export const getAllOrgs = async () => {
     return [];
   }
 };
-
-// GET organisasi berdasarkan ID
 export const getOrgById = async (id) => {
   try {
     const res = await axios.get(`${API_URL}/${id}`);
@@ -24,7 +21,6 @@ export const getOrgById = async (id) => {
   }
 };
 
-// CREATE organisasi
 export const createOrg = async (data) => {
   try {
     const res = await axios.post(API_URL, data);
@@ -35,7 +31,6 @@ export const createOrg = async (data) => {
   }
 };
 
-// UPDATE organisasi
 export const updateOrg = async (id, data) => {
   try {
     const res = await axios.put(`${API_URL}/${id}`, data);
@@ -45,8 +40,6 @@ export const updateOrg = async (id, data) => {
     return null;
   }
 };
-
-// DELETE organisasi
 export const deleteOrg = async (id) => {
   try {
     const res = await axios.delete(`${API_URL}/${id}`);
