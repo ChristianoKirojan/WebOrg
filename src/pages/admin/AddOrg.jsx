@@ -57,7 +57,6 @@ export default function AddOrg() {
     <div className="min-h-screen w-full flex justify-center pt-20 pb-10 px-4 bg-gradient-to-b from-blue-50 to-white">
       <div className="w-full max-w-5xl bg-white rounded-3xl shadow-2xl p-10 border border-gray-200">
 
-        {/* BUTTON KEMBALI */}
         <button
           onClick={() => nav("/admin")}
           className="mb-6 px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded-xl shadow-md"
@@ -71,7 +70,6 @@ export default function AddOrg() {
 
         <div className="space-y-6">
 
-          {/* BASIC INFO */}
           <div className="grid md:grid-cols-2 gap-6">
             <input
               name="name"
@@ -96,8 +94,6 @@ export default function AddOrg() {
             placeholder="Deskripsi Organisasi"
             className="w-full p-4 border rounded-xl shadow-sm h-32 focus:ring-2 focus:ring-blue-500"
           />
-
-          {/* PENGURUS */}
           <h2 className="text-2xl font-bold text-gray-700 mt-5 mb-3">Pengurus</h2>
           <div className="grid md:grid-cols-2 gap-4">
             {["ketua", "wakil", "sekretaris", "bendahara"].map((role) => (
@@ -118,7 +114,6 @@ export default function AddOrg() {
             ))}
           </div>
 
-          {/* ADVISOR */}
           <h2 className="text-2xl font-bold text-gray-700 mt-6 mb-3">Advisor</h2>
           <div className="space-y-4">
             {form.pengurus.advisor.map((adv, idx) => (
@@ -145,7 +140,6 @@ export default function AddOrg() {
             </button>
           </div>
 
-          {/* BUTTONS */}
           <div className="flex flex-col md:flex-row gap-4 mt-8">
             <button
               onClick={() => nav("/admin")}
